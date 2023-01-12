@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap');
+$primary: #738047;
+$cardfont-color: #474F2C;
+$secondary: #DFE4CE;
+$border: #A4B375;
+$logo-color: #F5DFC6;
+$bg-gray: #FFFFFF;
+$bg-gray2: #EEEEEE;
+$warn: #EABD8A;
+$warn-text:#C67A24;
+$trouble: #F27594;
+$trouble-text: #E75578;
+$none: #C5C5C5;
+$none-text: #9A9A9A;
+$sider-width: 425px;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+html,body {
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+}
+.header {
+  height: 76px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $primary;
+  z-index: 999;
+  padding: 0 70px;
+  .logo {
+    color: $logo-color;
+  }
+}
+.btn-change {
+  background-color: $bg-gray;
+  color: $primary;
+  font-family: 'Noto Sans TC', sans-serif;
+  margin: 0 8px;
+  border: 1px solid $border;
+}
+#map { 
+  width: 100vw;
+  height: 100vh;
+}
+.sidebar {
+  position: absolute;
+  left: 32px;
+  top: 112px;
+  width: $sider-width;
+  height: calc(100vh - 140px);
+  background-color: $bg-gray;
+  z-index: 999;
+  border-radius: 8px;
+  padding: 28px 32px;
+  box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
+  .search {
+    width: 70%;
+    position: relative;
+    cursor: pointer;
+    input {
+      width: 100%;
+      display: inline-block;
+      background-color: $bg-gray2;
+      &:focus {
+        border: $border solid 2px;
+        box-shadow: none
+      }
+    }
+    label {
+      cursor: pointer;
+    }
+    i {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      z-index: 999;
+      font-size: 25px;
+    }
+  }
+}
+.card-section {
+  height: 92%;
+}
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar{
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    box-shadow: inset 10px 10px $none-text;
+    border-radius: 50px;
+  }
+}
+.cards {
+  font-family: 'Noto Sans TC', sans-serif;
+  display: flex;
+  border-bottom: solid 1px $secondary;
+  h2 {
+    color: $cardfont-color;
+  }
+  .card-button {
+    color: $cardfont-color;
+    background-color: $secondary;
+    border-radius: 8px;
+    font-size: 15px;
+    padding: 3px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    width: 47%;
+  }
+  .count {
+    font-size: 26px;
+  }
+  .distance {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+}
+.btn-warn {
+  border: solid $warn 2px;
+  color: $warn-text;
+  font-weight: 500;
+}
+.btn-trouble {
+  border: solid $trouble 2px;
+  color: $trouble-text;
+  font-weight: 500;
+}
+.btn-none {
+  border: solid $none 2px;
+  color: $none-text;
+  font-weight: 500;
+}
+.top-icon {
+  position: absolute;
+  left: 477px;
+  top: 112px;
+  z-index: 999;
+  display: flex;
+  gap: 18px;
+}
+.find-tab {
+  width: 276px;
+  height: 60px;
+  background-color: #fff;
+  padding: 8px 12px;
+  border-radius: 40px;
+  box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
+  display: flex;
+  gap: 4px;
+  div {
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $primary;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    &.active {
+      color: #fff;
+      background-color: $primary
+    }
+  }
+}
+.locate-icon {
+  width: 60px;
+  height: 60px;
+  background-color: $primary;
+  box-shadow: 4px 4px 20px rgba(118, 118, 118, 0.3);
+  z-index: 999;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+}
