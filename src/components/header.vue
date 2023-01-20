@@ -5,18 +5,18 @@
         <img src="@/assets/images/Logo.svg" alt="">
       </a>
       <div class="d-flex">
-        <button class="btn btn-change" type="button">
+        <router-link class="btn btn-change" to="/">
           <i class="fas fa-bicycle"></i> 
           找單車
-        </button>
-        <button class="btn btn-change" type="button">
+        </router-link>
+        <router-link class="btn btn-change" to="/BikeRoute">
           <i class="fas fa-route"></i> 
           找路線
-        </button>
-        <button class="btn btn-change" type="button">
+        </router-link>
+        <router-link class="btn btn-change" to="/">
           <i class="fas fa-umbrella-beach"></i> 
           找景點
-        </button>
+        </router-link>
       </div>
     </div>
   </header>
