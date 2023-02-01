@@ -3,11 +3,6 @@ import { createWebHistory, createRouter } from "vue-router";
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('../views/BikeStation.vue')
-  },
-  {
-    path: '/BikeStation',
     name: 'BikeStation',
     component: () => import('../views/BikeStation.vue')
   },
@@ -15,6 +10,11 @@ const routes = [
     path: '/BikeRoute',
     name: 'BikeRoute',
     component: () => import('../views/BikeRoute.vue')
+  },
+  {
+    path: '/Attractions',
+    name: 'Attractions',
+    component: () => import('../views/Attractions.vue')
   },
 ]
 

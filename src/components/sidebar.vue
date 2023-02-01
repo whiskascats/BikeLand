@@ -1,23 +1,24 @@
 <template>
+
   <div class="sidebar d-flex flex-wrap align-content-start">
-    <div class="d-flex w-100 justify-content-between mb-4 flex-wrap">
-      <div class="search col-8">     
+    <div class="d-flex w-100 justify-content-between mb-lg-4 flex-wrap">
+      <div class="search col-8 mb-3">     
         <i class="fa-solid fa-chevron-down"></i>
-        <select class="form-control search-button" @change="changeCity($event.target.value)">
+        <select class="form-control search-button" @change="changeCity($event.target.value)" v-model="searchParams.city">
           <option value="" style="display: none">請選擇縣市</option>
-          <option :value="city.city_value" v-for="city in cityDataList" :key="city.city_value">{{ city.city_name }}</option>
+          <option :value="city.city_value" v-for="city in filterCityList" :key="city.city_value">{{ city.city_name }}</option>
         </select>
       </div>
-      <div class="sort col-4">
+      <div class="sort col-4 d-flex mb-3 justify-content-center">
         <button type="button" class="btn btn-change">
           <i class="fa fa-arrow-up-wide-short"></i>
           排序
         </button>
       </div>
-      <div class="search col-8 mt-3">
+      <div class="search col-8">
         <input id="search-button" placeholder="搜尋站點或路名" type="text" class="form-control search-button" v-model.trim="ks">
       </div>
-      <div class="col-4 mt-3">
+      <div class="col-4 d-flex justify-content-center">
         <button type="button" class="btn btn-change" @click="search">
           <i class="fa fa-search"></i>
           搜尋
@@ -27,43 +28,73 @@
     </div>
     <div class="d-flex w-100 card-section">
       <div class="w-100 card-list pe-3">
-        <template v-for="item in filterCardList" :key="item.StationID">
-          <Card1 :item="item" />
+        <template v-if="route.name === 'BikeStation'">
+          <template :key="item.StationID" v-for="item in filterCardList">
+            <Card1 :item="item" />
+          </template>
+        </template>
+        <template v-else-if="route.name === 'BikeRoute'">
+          <template :key="item.RouteName" v-for="item in filterCardList">
+            <Card2 :item="item" />
+          </template>
+        </template>
+        <template v-else-if="route.name === 'Attractions'">
+          <template :key="item.ScenicSpotID" v-for="item in filterCardList">
+            <Card3 :item="item" />
+          </template>
         </template>
       </div>
     </div>
   </div>
   <div class="top-icon">
-    <div class="find-tab">
+    <div class="find-tab" v-if="tab!=0">
       <span :class="{ 'active': tab == 2 }"></span>
       <div class="col-12">
         <div class="col-6" :class="{ 'active': tab == 1 }" @click="changeTab(1)">
-          <i class="fas fa-bicycle me-1"></i>
-          找單車
+          <template v-if="route.name === 'BikeStation'">
+            <i class="fas fa-bicycle me-1"></i>
+            找單車
+          </template>
+          <template v-if="route.name === 'Attractions'">
+            <i class="fas fa-umbrella-beach me-1"></i>
+            找景點
+          </template>
         </div>
         <div class="col-6" :class="{ 'active': tab == 2 }" @click="changeTab(2)">
-          <i class="fas fa-parking me-1"></i>
-          找車位
+          <template v-if="route.name === 'BikeStation'">
+            <i class="fas fa-parking me-1"></i>
+            找車位
+          </template>
+          <template v-if="route.name === 'Attractions'">
+            <i class="fas fa-utensils me-1"></i>
+            找餐廳
+          </template>
         </div>
       </div>
     </div>
+  </div>
+  <div>
     <button type="button" class="locate-icon" :class="{'none-locate': userLocation.length==0}"
-     @click="moveToPosition(userLocation)" :disabled="userLocation.length==0">
+      @click="moveToPosition(userLocation)" :disabled="userLocation.length==0">
       <i class="fas fa-crosshairs fa-2x"></i>
     </button>
   </div>
 
 </template>
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import Card1 from '@/components/card1.vue';
+import Card2 from '@/components/card2.vue';
+import Card3 from '@/components/card3.vue';
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
 import _ from 'lodash';
-import { markerSetNerby,  moveToPosition } from '@/composition-api/map.js';
+import { moveToPosition } from '@/composition-api/map.js';
 
-const dataStore = useDataStore()
-const { userLocation, findTab, cityDataList } = storeToRefs(dataStore)
+const route = useRoute();
+const dataStore = useDataStore();
+const { userLocation, searchParams, cityDataList } = storeToRefs(dataStore);
 
 const emit = defineEmits(['changeCity','changeTab'])
 const props = defineProps({
@@ -71,24 +102,38 @@ const props = defineProps({
     type: Array,
     default: []
   },
-  tab: Number
+  tab: [String, Number]
   
+})
+const filterCityList = computed(() => {
+  let filterList = cityDataList.value
+  filterList = filterList.filter(item => {
+    return item.type.includes(route.name)
+  })
+  return filterList
 })
 const filterCardList = computed(() => {
   let filterList = props.cardList
   if(searchParams.value.ks) {
-    filterList = filterList.filter(item => {
-      return item.StationName.Zh_tw.includes(ks.value) || item.StationAddress.Zh_tw.includes(ks.value)
-    })
+    switch(route.name) {
+      case 'BikeStation':
+        filterList = filterList.filter(item => {
+          return item.StationName.Zh_tw.includes(ks.value) || item.StationAddress.Zh_tw.includes(ks.value)
+        })
+      break;
+      case 'BikeRoute':
+        filterList = filterList.filter(item => {
+          return item.RouteName.includes(ks.value)
+        })
+      break;
+    }
   }
   return filterList
 })
 const ks = ref('')
-const searchParams = ref({
-  ks: ''
-})
 onMounted(async()=> {
   await dataStore.getCityData();
+  searchParams.value.city = ''
 })
 const changeCity = async(value) => {
   emit('changeCity',value)

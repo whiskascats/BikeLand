@@ -6,12 +6,19 @@ export const useDataStore = defineStore({
   id: 'data',
   state: () => ({
     userLocation: [],
+    searchParams: {
+      city: '',
+      ks: ''
+    },
     bikeTab: 1,
+    attractionsTab: 1,
     loading: false,
     cityDataList: [],
     cityBikeDataList: [],
     chooseStation: {},
     chooseNearbyBikeDataList: [],
+    chooseAttraction: {},
+    open: false,
   }),
   actions: {
     async getToken() {
@@ -27,6 +34,25 @@ export const useDataStore = defineStore({
       return {
         token
       }
+    },
+    async getCityData() {
+      let cityData
+      await useApi('get','./city.json')
+      .then(res => {
+        this.$state.cityDataList = res.data
+        cityData = res.data
+      })
+      return {
+        cityData
+      }
+    },
+    async getUserCityName(lat,lon) {
+      let address
+      await useApi('get',`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+      .then(res => {
+        address = res.data.address
+      })
+      return address
     },
     async getCityBikeData(cityName) {
       let stationList = []
@@ -62,18 +88,38 @@ export const useDataStore = defineStore({
       })
       return stationList
     },
-    async getCityData() {
-      let cityData
-      await useApi('get','./city.json')
+    async getBikeRouteData(cityName) {
+      let routeData = []
+      await useApi('get',`https://tdx.transportdata.tw/api/basic/v2/Cycling/Shape/City/${cityName}?$top=5000&$format=JSON`)
       .then(res => {
-        this.$state.cityDataList = res.data
-        cityData = res.data
+        routeData = res.data;
       })
-      return {
-        cityData
-      }
+      return routeData
     },
-    
+    async getAttractionsData(cityName) {
+      let attractionsData = []      
+      await useApi('get',`https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot/${cityName}?$top=5000&$format=JSON`)
+      .then(res => {
+        attractionsData  = res.data;
+      })
+      return attractionsData
+    },
+    async getRestaurantData(cityName) {
+      let restaurantData = []      
+      await useApi('get',`https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant/${cityName}?$top=5000&$format=JSON`)
+      .then(res => {
+        restaurantData  = res.data;
+      })
+      return restaurantData
+    },
+    async getAttractionsMoreInfo(query) {
+      let attractionsData = []      
+      await useApi('get',`https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot?$top=1&$format=JSON&$filter=${query}`)
+      .then(res => {
+        attractionsData  = res.data;
+      })
+      return attractionsData
+    },
   }
 
 })

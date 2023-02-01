@@ -6,12 +6,13 @@ import SideBar from '@/components/sidebar.vue';
 import { ref, onMounted } from "vue";
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
-import { markerSetNerby, removeMerkers, moveToPosition } from '@/composition-api/map.js';
+import { markerSetNerby, removeLayers } from '@/composition-api/map.js';
 
 const dataStore = useDataStore();
 const { userLocation, bikeTab, chooseNearbyBikeDataList } = storeToRefs(dataStore);
 const cardList = ref([]);
 onMounted(async() => {
+  removeLayers()
   if(userLocation.value.length>0) {
     const data = await dataStore.getNearbyBikeData(userLocation.value);
     cardList.value = data;
