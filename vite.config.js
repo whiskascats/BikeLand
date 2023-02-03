@@ -10,11 +10,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     }
   },
+  base: process.env.NODE_ENV === 'production' ? '/BikeLand/': '/',  
   define: {
     'process.env': {
       'BASE_URL': process.env.NODE_ENV === 'production' ? '/BikeLand/': '/',  
     }
   },
-  base: process.env.NODE_ENV === 'production' ? '/BikeLand/': '/',  
 
 })
