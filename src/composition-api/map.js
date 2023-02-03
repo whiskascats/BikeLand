@@ -18,7 +18,6 @@ export function createMap() {
   })
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="">Mapbox</a>',
     maxZoom: 20,
   }).addTo(openStreetMap)
   
@@ -221,6 +220,7 @@ export function setIcon(data) {
   let routeIcon = L.icon(iconSetFn('route'));
   data.forEach(item => {
     let marker = L.marker([item.Position.PositionLat,item.Position.PositionLon],{icon: routeIcon})
+    .bindPopup(`<p>${item.ScenicSpotName}</p>`)
     marker.on('click', function() {
       chooseAttraction.value = item
     })

@@ -18,28 +18,31 @@
           找景點
         </router-link>
       </div>
-      <div class="d-flex navbar-m" :class="{ 'show': show }">
-        <div class="col-4 d-flex">
+      <div class="d-flex d-md-none flex-wrap navbar-m" :class="{ 'show': show }">
+        <div class="col-4 m-link">
           <router-link to="/">
             <div class="text-center"><i class="fas fa-bicycle"></i></div>
             找單車
           </router-link>
         </div>
-        <div class="col-4">
+        <div class="col-4 m-link">
           <router-link to="/BikeRoute">
             <div class="text-center"><i class="fas fa-route"></i></div>
             找路線
           </router-link>
         </div>
-        <div class="col-4">
+        <div class="col-4 m-link">
           <router-link to="/Attractions">
             <div class="text-center"><i class="fas fa-umbrella-beach"></i></div>
             找景點
           </router-link>
         </div>
-        <!-- <div class="col-12">
-          聯絡克服
-        </div> -->
+        <div class="col-12 contact">
+          <a href="https://www.youbike.com.tw/region/main/customer-service/" target="_blank">
+            <i class="fas fa-phone"></i>
+            聯絡單車客服            
+          </a>
+        </div>
       </div>
 
       <div class="d-block d-md-none" @click="show = !show">

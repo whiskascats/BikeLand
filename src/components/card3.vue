@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 cards card3 d-flex flex-wrap">
+  <div class="col-lg-12 col-md-5 col-12 cards card3 d-flex flex-wrap">
     <div class="card3-img mt-4 default" ref="backgroundImage" style="" @click="cardClick"></div>
     <div class="col-12 d-flex">
       <h2 class="col-9 my-2" @click="cardClick">{{ item.ScenicSpotName }}</h2>
@@ -8,9 +8,9 @@
         <div>{{ item.City }}</div>
       </div>
     </div>
-    <div class="col-12 d-flex mb-2">
+    <div class="col-12 d-flex mb-2 tabs">
       <template v-for="num in 5" :key="num">
-        <span v-if="item['Class'+num]">
+        <span class="oneline" v-if="item['Class'+num]">
           {{ item['Class'+num] }}
         </span>
       </template>
