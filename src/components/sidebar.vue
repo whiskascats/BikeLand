@@ -10,10 +10,21 @@
         </select>
       </div>
       <div class="sort col-lg-4 col-sm-2 col-4 d-flex mb-3 justify-content-center">
-        <button type="button" class="btn btn-change">
-          <i class="fa fa-arrow-up-wide-short"></i>
+        <button type="button" class="btn btn-change" @click="sortOpen = !sortOpen">
+          <i class="fa" :class="{'fa-arrow-up-wide-short': !sortOpen, 'fa-arrow-down-wide-short':sortOpen}"></i>
           排序
         </button>
+        <div class="sort-section" :class="{'open': sortOpen}">
+          <div class="text-center" @click="sortValue='distance'; sortOpen=false;">距離較近</div>
+          <template v-if="route.name === 'BikeStation'">
+            <div class="text-center" @click="sortValue='rent'; sortOpen=false;">可借車數</div>
+            <div class="text-center" @click="sortValue='return'; sortOpen=false;">可還車數</div>
+          </template>
+          <template v-if="route.name === 'BikeRoute'">
+            <div class="text-center" @click="sortValue='short-length'; sortOpen=false;">路線短到長</div>
+            <div class="text-center" @click="sortValue='long-length'; sortOpen=false;">路線長到短</div>
+          </template>
+        </div>
       </div>
       <div class="search col-lg-8 col-sm-10 col-8">
         <input id="search-button" placeholder="搜尋站點或路名" type="text" class="form-control search-button" v-model.trim="ks">
@@ -74,7 +85,7 @@
     </div>    
     <div>
       <button type="button" class="locate-icon" :class="{'none-locate': userLocation.length==0}"
-        @click="moveToPosition(userLocation)" :disabled="userLocation.length==0">
+        @click="moveToPosition(userLocation);getLocation()" :disabled="userLocation.length==0">
         <i class="fas fa-crosshairs fa-2x"></i>
       </button>
     </div>
@@ -90,12 +101,13 @@ import Card3 from '@/components/card3.vue';
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
 import _ from 'lodash';
-import { moveToPosition } from '@/composition-api/map.js';
+import { moveToPosition, getLocation } from '@/composition-api/map.js';
 
 const route = useRoute();
 const dataStore = useDataStore();
 const { userLocation, searchParams, cityDataList } = storeToRefs(dataStore);
-
+const sortOpen = ref(false)
+const sortValue = ref('')
 const emit = defineEmits(['changeCity','changeTab'])
 const props = defineProps({
   cardList: {
@@ -126,6 +138,37 @@ const filterCardList = computed(() => {
           return item.RouteName.includes(ks.value)
         })
       break;
+    }
+  }
+  if(sortValue.value) {
+    switch(sortValue.value) {
+      case 'distance': 
+        filterList = filterList.sort((a,b) => {
+          return a.distance - b.distance
+        })
+      break;
+      case 'rent': 
+        filterList = filterList.sort((a,b) => {
+          return b.AvailableRentBikes - a.AvailableRentBikes
+        })
+      break;
+      case 'return': 
+        filterList = filterList.sort((a,b) => {
+          return b.AvailableReturnBikes - a.AvailableReturnBikes
+        })
+      break;
+      case 'short-length': 
+        filterList = filterList.sort((a,b) => {
+          return a.CyclingLength - b.CyclingLength
+        })
+      break;
+      case 'long-length': 
+        filterList = filterList.sort((a,b) => {
+          return b.CyclingLength - a.CyclingLength
+        })
+      break;
+      default:
+        filterList = filterList
     }
   }
   return filterList
