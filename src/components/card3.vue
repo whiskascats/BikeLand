@@ -1,6 +1,6 @@
 <template>
-  <div class="col-lg-12 col-md-5 col-12 cards card3 d-flex flex-wrap">
-    <div class="card3-img mt-lg-4 default" ref="backgroundImage" style="" @click="cardClick"></div>
+  <div class="col-lg-12 col-md-5 col-12 cards card3 d-flex flex-wrap" @click="cardClick">
+    <div class="card3-img mt-lg-4 default" ref="backgroundImage" style=""></div>
     <div class="col-12 d-flex">
       <h2 class="col-12 my-2" @click="cardClick">{{ item.ScenicSpotName }}</h2>
       <!-- <div class="col-3 locate">
@@ -19,7 +19,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { moveToPosition } from '@/composition-api/map.js';
+import { moveToPosition, attractionPopup } from '@/composition-api/map.js';
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
 import _ from 'lodash';
@@ -46,8 +46,8 @@ onMounted(() => {
   }
 })
 const cardClick = () => {
-  console.log(props.item);
-  chooseAttraction.value = props.item
+  chooseAttraction.value = props.item;
   moveToPosition([props.item.Position.PositionLat,props.item.Position.PositionLon],18);
+  attractionPopup(props.item.sid);
 }
 </script>

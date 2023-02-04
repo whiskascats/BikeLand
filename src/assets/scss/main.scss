@@ -14,6 +14,7 @@
   --trouble-text: #E75578;
   --none: #C5C5C5;
   --none-text: #9A9A9A;
+  --card-hover: #FFFACD;
   --header-height: 76px;
   --sidebar-height: clac(100vh - var(--header-height) + 64px);
 }
@@ -194,12 +195,9 @@ html,body {
     }
   }
   .left-page {
-    width: 70%;  
-    display: flex;
-    flex-wrap: wrap;
+    width: 70%;
     @media (max-width: 768px) {      
       width: 100%;
-      order: 2;
     }
     
     .info {
@@ -213,9 +211,9 @@ html,body {
       -webkit-box-orient: vertical;
       text-overflow: ellipsis;
       // height: 128px;
-      @media (max-width: 768px) {
-        display: none;
-      }
+      // @media (max-width: 768px) {
+      //   display: none;
+      // }
     }
   }
   .right-page {
@@ -223,8 +221,7 @@ html,body {
     display: flex;
     align-items: center;
     @media (max-width: 768px) {
-      width: 100%;
-      order: 1;
+      display: none;
     }
     .right-page-img {
       width: 100%;

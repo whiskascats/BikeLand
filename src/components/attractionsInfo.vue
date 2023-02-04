@@ -40,7 +40,6 @@ const { chooseAttraction, open } = storeToRefs(dataStore);
 const imageObj = reactive({
   backgroundImage: `url(${chooseAttraction.value.Picture.PictureUrl1})`
 })
-console.log(imageObj);
 onMounted(async() => {
   const data = await dataStore.getAttractionsMoreInfo(`contains(ScenicSpotID,'${chooseAttraction.value.ScenicSpotID}')`)
   if(data.length > 0) {

@@ -24,7 +24,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
-import { moveToPosition, markerSetNerby, distance, setRoutePolyline } from '@/composition-api/map.js'
+import { distance, setRoutePolyline } from '@/composition-api/map.js'
 import wicket from 'wicket'
 const props = defineProps({
   item: {
