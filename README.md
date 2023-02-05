@@ -1,7 +1,30 @@
-# Vue 3 + Vite
+# BikeLand
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### 自行車道地圖資訊整合網
+![](https://i.imgur.com/0hgmdK1.jpg)
 
-## Recommended IDE Setup
+## Demo
+https://whiskascats.github.io/BikeLand/
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Introduction
+使用Vue3結合Vite，串接交通部(TDX運輸資料流通服務平台)提供之TDX API資料，可提供使用者附近的Ubike站點、腳踏車路線、風景區、餐廳(api目前無資料)的資訊，以此決定接下來的行程
+
+## Skills & Library
+* HTML5+CSS3+JavaScript
+* SCSS
+* Vue3
+* Vite
+* Lefleat
+* Axios
+* pinia
+* wicket
+* lodash
+
+## Note
+1. 使用axios的攔截器來製作打API前判斷是否有token的功能
+2. 使用github action來完成自動化部署，與複製404.html來避免vue-router發生的404 error問題
+3. 使用scss讓css更易讀
+4. 使用lodash讓js判斷更簡短
+
+## Source
+* UI設計師: [Shiaohan](https://www.behance.net/hsiaohan)
