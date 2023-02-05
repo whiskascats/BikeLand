@@ -8,7 +8,8 @@ export default function (type, num) {
   if(type === 'users') {
     iconSetting = {
       iconUrl: iconUser,
-      iconSize: [29, 38.5],
+      iconSize: [38.5, 38.5],
+      iconAnchor: [18, 12],
     }
   }else if (type === 'enough') {
     iconSetting = {
@@ -43,9 +44,9 @@ export default function (type, num) {
   } else if (type === 'route') {
     iconSetting = {
       iconUrl: iconRoute,
-      iconSize: [26, 38.5],
+      iconSize: [29, 38.5],
       iconAnchor: [15, 40],
-      popupAnchor: [-2, -35],
+      popupAnchor: [-1, -35],
     }
   }
   return iconSetting

@@ -8,7 +8,7 @@ import AttractionsInfo from '@/components/attractionsInfo.vue';
 import { ref, onMounted } from "vue";
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
-import { removeLayers, setIcon } from '@/composition-api/map.js';
+import { removeLayers, setIcon, distance } from '@/composition-api/map.js';
 import _ from 'lodash';
 
 const dataStore = useDataStore();
@@ -38,7 +38,8 @@ const changeCity = async(city) => {
   ? data = await dataStore.getAttractionsData(city)
   : data = await dataStore.getRestaurantData(city)
   data.map((item,index) => {
-    item.sid = index
+    item.sid = index;
+    item.distance = distance(userLocation.value[0],userLocation.value[1], item.Position.PositionLat, item.Position.PositionLon);
   })
   setIcon(data)
   cardList.value = data;
@@ -50,6 +51,7 @@ const changeTab = async(tab) => {
       attractionsTab.value = 1
       alert('餐廳資料建置中!!')
     }, 500);
-  }
+  }  
+  // changeCity(searchParams.value.city)
 }
 </script>
