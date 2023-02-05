@@ -238,17 +238,18 @@ export function setRoutePolyline(item) {
 export function setIcon(data) {
   const dataStore = useDataStore()
   const { chooseAttraction } = storeToRefs(dataStore)
-  removeLayers()
+  removeLayers();
+  markers2 = [];
   markers = L.markerClusterGroup();
   let routeIcon = L.icon(iconSetFn('route'));
   data.forEach(item => {
     let marker = L.marker([item.Position.PositionLat,item.Position.PositionLon],{icon: routeIcon})
     .bindPopup(`<p>${item.ScenicSpotName}</p>`)
     marker.on('click', function() {
-      chooseAttraction.value = item
+      chooseAttraction.value = item;
     })
     markers.addLayer(marker);
-    markers2.push(marker)
+    markers2.push(marker);
   })
   // let userIcon = L.icon(iconSetFn('users'))
   // markers.getLayers().slice().reverse()[0].setIcon(userIcon);

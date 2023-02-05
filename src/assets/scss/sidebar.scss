@@ -69,9 +69,6 @@
       height: 0;
       transition: .1s linear;
       overflow: hidden;
-      &.open {
-        height: 120px;
-      }
       div {
         padding: 8px 15px;
         cursor: pointer;

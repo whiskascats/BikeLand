@@ -14,7 +14,7 @@
           <i class="fa" :class="{'fa-arrow-up-wide-short': !sortOpen, 'fa-arrow-down-wide-short':sortOpen}"></i>
           排序
         </button>
-        <div class="sort-section" :class="{'open': sortOpen}">
+        <div class="sort-section" :style="{ 'height': sortHeight }">
           <div class="text-center" @click="sortValue='distance'; sortOpen=false;">距離較近</div>
           <template v-if="route.name === 'BikeStation'">
             <div class="text-center" @click="sortValue='rent'; sortOpen=false;">可借車數</div>
@@ -93,7 +93,7 @@
 
 </template>
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Card1 from '@/components/card1.vue';
 import Card2 from '@/components/card2.vue';
@@ -106,7 +106,6 @@ import { moveToPosition, getLocation } from '@/composition-api/map.js';
 const route = useRoute();
 const dataStore = useDataStore();
 const { userLocation, searchParams, cityDataList } = storeToRefs(dataStore);
-const sortOpen = ref(false)
 const sortValue = ref('')
 const emit = defineEmits(['changeCity','changeTab'])
 const props = defineProps({
@@ -136,6 +135,11 @@ const filterCardList = computed(() => {
       case 'BikeRoute':
         filterList = filterList.filter(item => {
           return item.RouteName.includes(ks.value)
+        })
+      break;
+      case 'Attractions':
+        filterList = filterList.filter(item => {
+          return item.ScenicSpotName.includes(ks.value)
         })
       break;
     }
@@ -174,6 +178,8 @@ const filterCardList = computed(() => {
   return filterList
 })
 const ks = ref('')
+const sortOpen = ref(false)
+const sortHeight = ref('0px')
 onMounted(async()=> {
   await dataStore.getCityData();
   searchParams.value.city = ''
@@ -192,5 +198,15 @@ const search = () => {
   }
   searchParams.value.ks = ks.value;
 }
+watch(
+  () => sortOpen.value,
+  (newValue) => {
+    if(newValue) {      
+      route.name === 'Attractions' ? sortHeight.value = '40px' : sortHeight.value = '120px'
+    } else {
+      sortHeight.value = '0px'
+    }
+  }
+)
 </script>
 
